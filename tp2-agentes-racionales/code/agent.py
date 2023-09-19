@@ -1,86 +1,112 @@
 #Implementar un agente reflexivo simple para el entorno de la
 #aspiradora del ejercicio anterior.
-
+import numpy as np
 class Agent:
     def __init__(self,env):
         self.env = env
         self.score = 0
         self.life = 1000
-        self.moves = ["left","down","right"]
-        self.foundHome = False
 
     def up(self):
-        self.life -=1 
-        return self.env.refreshPos("up")
+        self.env.refreshPos("up")
     
     def down(self):
-        self.life -=1 
-        return self.env.refreshPos("down")
+        self.env.refreshPos("down")
     
     def left(self):
-        self.life -=1 
-        return self.env.refreshPos("left")
+        self.env.refreshPos("left")
     
     def right(self):
-        self.life -=1 
-        return self.env.refreshPos("right")
+        self.env.refreshPos("right")
     
     def clean(self):
-        self.life -=1 
-        return self.env.cleanCell()
+        self.env.cleanCell()
     
     def idle(self):
-        self.life -=1 
-        return True
+        pass
 
     def get_performance(self):
-        return self.score / (self.env.get_performance() + self.score) 
+        return self.score / (self.env.get_dirtness() + self.score) 
     
     def perspective(self,env):
         return env.is_dirty()
     
     def think(self):
         
-        if self.env.is_dirty():
+        if self.perspective(self.env):
             self.clean()
             self.score += 1
 
-        elif not (self.foundHome):
-            if self.env.accept_action("up"):
-                self.up()
-            elif self.env.accept_action("left"):
-                self.left()
-            else:
-                self.foundHome = True
-                return False
-            
-        else:
-            next_move=self.moves.pop()
-            if next_move == "left":
-                if self.env.accept_action("left"):
-                    self.left()
-                    self.moves.append(next_move)
-                else:
-                    self.moves.insert(0,next_move)
-                    return False
-            elif next_move == "down":
-                
-                self.moves.insert(0,next_move)
-                if self.env.accept_action("down"):
+        else: 
+            moves = ["up","down","left","right"]
+            next_move = np.random.choice(moves)
+            if self.env.accept_action(next_move):
+                if next_move == "up":
+                    self.up()
+                elif next_move == "down":
                     self.down()
-                else:
-                    self.foundHome = False
-                
-            elif next_move == "right":
-                if self.env.accept_action("right"):
+                elif next_move == "left":
+                    self.left()
+                elif next_move == "right":
                     self.right()
-                    self.moves.append(next_move)
-                else:
-                    self.moves.insert(0,next_move)
-                    return False
+                
+            else: return False
+        self.life -= 1
         return True
 
+#Implementar un agente aleatorio para el entorno
 
+class AgentR:
+    def __init__(self,env):
+        self.env = env
+        self.score = 0
+        self.life = 1000
 
+    def up(self):
+        self.env.refreshPos("up")
+    
+    def down(self):
+        self.env.refreshPos("down")
+    
+    def left(self):
+        self.env.refreshPos("left")
+    
+    def right(self): 
+        self.env.refreshPos("right")
+    
+    def clean(self):
+        self.env.cleanCell()
+    
+    def idle(self):
+        pass
+
+    def get_performance(self):
+        return self.score / (self.env.get_dirtness() + self.score) 
+    
+    def perspective(self,env):
+        return env.is_dirty()
+    
+    def think(self):
+        moves = ["up","down","left","right","idle","clean"]
+        next_move = np.random.choice(moves)
+        if self.env.accept_action(next_move):
+            if next_move == "up":
+                self.up()
+            elif next_move == "down":
+                self.down()
+            elif next_move == "left":
+                self.left()
+            elif next_move == "right":
+                self.right()
+            elif next_move == "idle":
+                self.idle()
+        else: 
+            if next_move == "clean":    
+                if self.perspective(self.env):
+                    self.score += 1
+                self.clean()
+            else: return False
+        self.life -= 1
+        return True
 
 

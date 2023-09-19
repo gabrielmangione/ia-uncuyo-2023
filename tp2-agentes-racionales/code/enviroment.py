@@ -20,6 +20,8 @@ class Enviroment:
         #Create the grid with the given size and a probability of dirt in each cell 
         self.grid = np.random.choice([0, 1], size=(sizeX, sizeY), p=[1 - dirt_rate, dirt_rate])
 
+        while self.get_dirtness() == 0:
+            self.grid = np.random.choice([0, 1], size=(sizeX, sizeY), p=[1 - dirt_rate, dirt_rate])
 
     def print_grid(self):
     # Print the grid with the agent position
@@ -43,6 +45,8 @@ class Enviroment:
             return self.agent_posY-1 >= 0
         elif action == "right":
             return self.agent_posY+1 < self.sizeY
+        elif action =="idle":
+            return True
         else:
             return False
     
@@ -66,5 +70,5 @@ class Enviroment:
     def is_dirty(self):
         return self.grid[self.agent_posX][self.agent_posY] == 1
     
-    def get_performance(self):
+    def get_dirtness(self):
         return np.sum(self.grid == 1)
