@@ -84,14 +84,14 @@ class Enviroment:
     def get_objetive(self):
         return self.target_pos[0],self.target_pos[1]
     
-    def get_neighbors(self, posX,posY):
-        neighbors = []
+    def get_neighbours(self, posX,posY):
+        neighbours = []
         if posX-1 >= 0 and self.grid[posX-1][posY] != 1:
-            neighbors.append((posX-1,posY))
+            neighbours.append((posX-1,posY))
         if posX+1 < self.size and self.grid[posX+1][posY] != 1:
-            neighbors.append((posX+1,posY))
+            neighbours.append((posX+1,posY))
         if posY-1 >= 0 and self.grid[posX][posY-1] != 1:
-            neighbors.append((posX,posY-1))
+            neighbours.append((posX,posY-1))
         if posY+1 < self.size and self.grid[posX][posY+1] != 1:
-            neighbors.append((posX,posY+1))
-        return neighbors
+            neighbours.append((posX,posY+1))
+        return neighbours
