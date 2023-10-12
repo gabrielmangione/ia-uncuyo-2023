@@ -21,7 +21,7 @@ class Agent:
             current_node = current_path[-1]
 
             if current_node == self.objetive:
-                self.env.draw_path(current_path)
+                #self.env.draw_path(current_path)
                 return len(current_path), True
 
             if current_node in closed_set:
@@ -35,7 +35,6 @@ class Agent:
                     new_cost = current_cost + 1  # Puedes ajustar esto dependiendo de tus costos reales.
 
                     open_list.append((new_path, new_cost))
-
         return 0, False
 
     def h(self, x, y):
