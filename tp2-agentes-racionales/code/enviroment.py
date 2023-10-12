@@ -22,6 +22,7 @@ class Enviroment:
 
         while self.get_dirtness() == 0:
             self.grid = np.random.choice([0, 1], size=(sizeX, sizeY), p=[1 - dirt_rate, dirt_rate])
+        self.grid[init_posX][inti_posY] = 0
 
     def print_grid(self):
     # Print the grid with the agent position

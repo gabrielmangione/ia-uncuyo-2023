@@ -10,10 +10,14 @@ class Enviroment:
         self.agent_pos = (init_posX,inti_posY)
         self.target_pos = (target_posX,target_posY)
 
-        #Create the grid with a percentage of obstacles equal to rate
-        self.grid = np.random.choice([0,1], size=(size,size), p=[1-rate, rate])
+        #Create the grid with a percentage of obstacles equal to rate try to not put an obstacle in the agent or target position
+        self.grid = np.random.choice([0, 1], size=(size, size), p=[1-rate, rate])
+        
         while self.get_obstacle_percentage() != rate:
             self.grid = np.random.choice([0,1], size=(size,size), p=[1-rate, rate])
+        
+        self.grid[init_posX][inti_posY] = 0
+        self.grid[target_posX][target_posY] = 0
         
         self.image = self.get_grid_img()
         
