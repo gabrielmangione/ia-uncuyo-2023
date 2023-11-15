@@ -97,3 +97,4 @@ Por ultimo, considero que la ética en el desarrollo de la IA es crucial, y la e
 
 ## Ejercicio 2
 
+Mas alla de los comentarios eticos sobre las IAs generativas, se las debe comprender como herramientas las cuales permiten resolver diversos problemas, por si mismas deberían aumentar el potencial de las personas y ese debe ser su objetivo como desarrollo tecnologico. Es sabido que la tecnología por sí misma no es buena o mala, sino que el impacto positivo o negativo que esta tenga dependerá de cómo se desarrolla, implementa y regula. Si bien en la actualidad estamos en una competencia que parece no tener fin por conseguir el modelo generativo mas poderoso, mientras estas herramientas permanezcan disponibles para todos, podran ser probadas y cuestionadas sobre los distintos sesgos que puedan darse y los limites que deberian considerarse.
