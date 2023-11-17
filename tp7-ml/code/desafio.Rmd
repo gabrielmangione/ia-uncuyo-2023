@@ -1,0 +1,67 @@
+---
+title: "Desafio Arbolado Mendoza"
+output: html_notebook
+---
+```{r}
+install.packages("ranger")
+```
+
+```{r}
+install.packages("pROC")
+```
+
+
+```{r}
+# Cargar el dataset
+arbolado <- read.csv("./data/arbolado-mza-dataset.csv")
+
+test <- read.csv("./data/arbolado-mza-dataset-test.csv")
+
+# Ver las primeras filas
+head(arbolado)
+
+# Separar en dataset en un conjunto de prueba y otro de entrenamiento
+set.seed(42)
+indices <- sample(1:nrow(arbolado), size = 0.8 * nrow(arbolado))
+train_data <- arbolado[indices, ]
+test_data <- arbolado[-indices, ]
+
+
+
+```
+
+
+```{r}
+
+# Instalar y cargar las librerías necesarias
+library(ranger)
+
+# Hacer oversampling de la clase minoritaria en train_data
+# Asumiendo que "inclinacion_peligrosa" es la variable de respuesta
+set.seed(42)
+minority_class <- subset(train_data, inclinacion_peligrosa == "1")
+oversampled_data <- rbind(train_data, minority_class)
+
+# Crear el modelo con ranger
+modelo_rf <- ranger(
+  formula = inclinacion_peligrosa ~ altura + especie,
+  data = oversampled_data,
+  num.trees = 100
+)
+
+# Realizar predicciones en el conjunto de prueba
+predicciones <- predict(modelo_rf, data = test)
+
+# Crear un nuevo dataframe con las columnas "id" y "inclinacion_peligrosa"
+resultados <- data.frame(id = test$id, inclinacion_peligrosa = predicciones$predictions)
+
+# Mostrar el nuevo dataframe
+print(resultados)
+
+#guardar resultados como csv con el encabezado id, inclinacion_peligrosa
+write.csv(resultados, file = "resultados.csv", row.names = FALSE)
+
+
+
+```
+
